@@ -6,10 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.example.board")  // ← 이 부분 추가
 public class GlobalExceptionHandler {
 
-    // 잘못된 요청 (게시글 없음 등)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
         return ResponseEntity
@@ -17,7 +16,6 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(404, e.getMessage()));
     }
 
-    // 그 외 모든 예외
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         return ResponseEntity
