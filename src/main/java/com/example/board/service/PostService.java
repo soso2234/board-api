@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)     // 읽기 전용 readonly
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
@@ -41,18 +41,28 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public PostResponseDto updatePost(Long id, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long id, PostRequestDto requestDto, String username) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + id));
+
+        if (!post.getAuthor().equals(username)) {
+            throw new IllegalArgumentException("본인이 작성한 글만 수정할 수 있습니다.");
+        }
+
         post.update(requestDto.getTitle(), requestDto.getContent());
         return new PostResponseDto(post);
     }
 
     // 게시글 삭제
     @Transactional
-    public void deletePost(Long id) {
+    public void deletePost(Long id, String username) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + id));
+
+        if (!post.getAuthor().equals(username)) {
+            throw new IllegalArgumentException("본인이 작성한 글만 삭제할 수 있습니다.");
+        }
+
         postRepository.delete(post);
     }
 }
