@@ -47,4 +47,9 @@ public class Comment {
         this.post = post;
         this.parent = parent;
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
 }
