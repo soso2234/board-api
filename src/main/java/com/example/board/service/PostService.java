@@ -4,6 +4,10 @@ import com.example.board.dto.PostRequestDto;
 import com.example.board.dto.PostResponseDto;
 import com.example.board.entity.Post;
 import com.example.board.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +34,13 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + id));
         return new PostResponseDto(post);
+    }
+
+    // 게시글 전체 조회 (페이징)
+    public Page<PostResponseDto> getAllPosts(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createdAt").descending());
+        return postRepository.findAllByOrderByCreatedAtDesc(pageable)
+                .map(PostResponseDto::new);
     }
 
     // 게시글 작성

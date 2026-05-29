@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers("/ws/**", "/api/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

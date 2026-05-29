@@ -6,6 +6,7 @@ import com.example.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,13 @@ public class PostController {
 
     private final PostService postService;
 
-    // 전체 조회
+    // 전체 조회 (페이징)
     @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<Page<PostResponseDto>> getAllPosts(
+            @RequestParam(defaultValue = "0") int page) {
+        return ResponseEntity.ok(postService.getAllPosts(page));
     }
+
 
     // 단건 조회
     @GetMapping("/{id}")
