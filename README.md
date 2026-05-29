@@ -1,5 +1,6 @@
 # 📋 Board API
 
+Claude AI 활용
 Spring Boot 기반 게시판 REST API 프로젝트입니다.
 
 ## 🛠 Tech Stack
