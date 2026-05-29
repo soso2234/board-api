@@ -30,9 +30,11 @@ public class PostService {
     }
 
     // 게시글 단건 조회
+    @Transactional
     public PostResponseDto getPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + id));
+        post.increaseViewCount();
         return new PostResponseDto(post);
     }
 

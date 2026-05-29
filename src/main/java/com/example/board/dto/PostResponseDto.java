@@ -13,6 +13,8 @@ public class PostResponseDto {
     private String content;
     private String author;
     private LocalDateTime createdAt;
+    private int viewCount;
+    private int commentCount;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
@@ -20,5 +22,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.author = post.getAuthor();
         this.createdAt = post.getCreatedAt();
+        this.viewCount = post.getViewCount();
+        this.commentCount = post.getComments().size();
     }
 }

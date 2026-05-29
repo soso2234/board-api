@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import com.example.board.entity.Comment;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,4 +43,14 @@ public class Post {
         this.title = title;
         this.content = content;
     }
+
+    @Column(columnDefinition = "int default 0")
+    private int viewCount;
+
+    public void increaseViewCount() {
+        this.viewCount++;
+    }
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }
